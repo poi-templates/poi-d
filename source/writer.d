@@ -33,7 +33,7 @@ unittest
 }
 
 abc/def/123.txt 3
-abc
+{{header}}
 def
 123
 
@@ -45,11 +45,13 @@ int main() {
 }
 
 .`;
-    auto pois = parseToPOIs(source.split("\n"));
+    write(".poi_vars", `{"header": "abc"}`);
+
+    auto pois = parseToPOIs(source.split("\n"), readText(".poi_vars"));
     writeToFiles(pois);
 
-
-    assert (pois.context()["message"] == "hello world");
+    assert (pois.context["message"] == "hello world");
+    assert (pois.context["header"] == "abc");
 
     assert (exists(".poi_defaults"));
     assert (exists("abc/def/123.txt"));
@@ -58,4 +60,5 @@ int main() {
     "hello.c".remove;
     "abc".rmdirRecurse;
     ".poi_defaults".remove;
+    ".poi_vars".remove;
 }

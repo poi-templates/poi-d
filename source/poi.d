@@ -3,6 +3,8 @@ import std.conv : to;
 import std.regex;
 import std.array : join, split;
 
+import std.file: exists, readText;
+
 /// simple file in POI
 struct POI
 {
@@ -61,9 +63,11 @@ unittest
 }
 
 /// parse poi file into POI structure
-POIs parseToPOIs(string[] text)
+POIs parseToPOIs(string[] text, string poivars = "{}")
 {
     POIs p;
+
+    p.poivars = poivars;
 
     for (int i; i < text.length; i++)
     {
@@ -114,5 +118,7 @@ int main() {
     assert(p.pois["abc/def/123.txt"].content.length == 3);
     assert(p.pois["hello.c"].content.length == 5);
     assert(p.pois[".poi_defaults"].content.length == 3);
-    assert(p.context["message"] == "hello world");
+
+    auto p2 = parseToPOIs(source.split("\n"), `{"message": "bye world"}`);
+    assert(p2.context["message"] == "bye world");
 }

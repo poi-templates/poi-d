@@ -1,5 +1,6 @@
 import std.getopt;
 import std.stdio;
+import std.file;
 import std.array;
 import poi;
 import writer;
@@ -14,7 +15,11 @@ void main(string[] args)
 	}
 
 	if (file) {
-		File(file).byLineCopy.array.parseToPOIs.writeToFiles;
+		string poivars = "{}";
+		if (exists(".poi_vars")) {
+			poivars = readText(".poi_vars");
+		}
+		File(file).byLineCopy.array.parseToPOIs(poivars).writeToFiles;
 	}
 
 }
