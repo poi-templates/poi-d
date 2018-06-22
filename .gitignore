@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+poid.so
+poid.dylib
+poid.dll
+poid.a
+poid.lib
+poid-test-*
+*.exe
+*.o
+*.obj
+*.lst
+dub.selections.json
+poid

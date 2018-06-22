@@ -1,0 +1,12 @@
+{
+	"name": "poid",
+	"authors": [
+		"KimmyLeo"
+	],
+	"description": "POI implemented in D",
+	"copyright": "Copyright © 2018, KimmyLeo",
+	"license": "MIT",
+	"dependencies": {
+		"mustache-d": "~>0.1.3"
+	}
+}
