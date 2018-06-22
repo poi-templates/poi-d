@@ -27,7 +27,12 @@ private void writeToFile(string fileName, string content)
 
 unittest
 {
-    auto source = `abc/def/123.txt 3
+    auto source = `.poi_defaults 3
+{
+    "message": "hello world"
+}
+
+abc/def/123.txt 3
 abc
 def
 123
@@ -36,16 +41,21 @@ hello.c 5
 #include <stdio.h>
 
 int main() {
-    return printf("hello world");
+    return printf("{{message}}");
 }
 
 .`;
+    auto pois = parseToPOIs(source.split("\n"));
+    writeToFiles(pois);
 
-    writeToFiles(parseToPOIs(source.split("\n")));
 
+    assert (pois.context()["message"] == "hello world");
+
+    assert (exists(".poi_defaults"));
     assert (exists("abc/def/123.txt"));
     assert (exists("hello.c"));
 
     "hello.c".remove;
     "abc".rmdirRecurse;
+    ".poi_defaults".remove;
 }

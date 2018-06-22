@@ -1,6 +1,5 @@
-import std.stdio;
 import std.getopt;
-import std.file;
+import std.stdio;
 import std.array;
 import poi;
 import writer;

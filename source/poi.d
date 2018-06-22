@@ -3,8 +3,6 @@ import std.conv : to;
 import std.regex;
 import std.array : join, split;
 
-import std.stdio;
-
 /// simple file in POI
 struct POI
 {
@@ -47,7 +45,6 @@ struct POIs
     }
 }
 
-
 private const auto REGEX_FILENAME = regex(r"^(.*)\s+(\d+)$");
 
 unittest
@@ -72,7 +69,7 @@ POIs parseToPOIs(string[] text)
     {
         auto match = matchFirst(text[i], REGEX_FILENAME);
 
-        assert (match || text[i] == ".");
+        assert(match || text[i] == ".");
 
         if (match)
         {
@@ -81,6 +78,9 @@ POIs parseToPOIs(string[] text)
             auto content = text[i + 1 .. i + 1 + count];
             p.pois[filename] = POI(content);
             i += (count + 1); // +1 to skip the empty line
+            if (filename == ".poi_defaults") {
+                p.poidefaults = content.join("\n");
+            }
         }
     }
 
@@ -89,7 +89,12 @@ POIs parseToPOIs(string[] text)
 
 unittest
 {
-    auto source = `abc/def/123.txt 3
+    auto source = `.poi_defaults 3
+{
+    "message": "hello world"
+}
+
+abc/def/123.txt 3
 abc
 def
 123
@@ -98,14 +103,16 @@ hello.c 5
 #include <stdio.h>
 
 int main() {
-    return printf("hello world");
+    return printf("{{message}}");
 }
 
 .`;
 
     auto p = parseToPOIs(source.split("\n"));
 
-    assert(p.pois.length == 2);
+    assert(p.pois.length == 3);
     assert(p.pois["abc/def/123.txt"].content.length == 3);
     assert(p.pois["hello.c"].content.length == 5);
+    assert(p.pois[".poi_defaults"].content.length == 3);
+    assert(p.context["message"] == "hello world");
 }
