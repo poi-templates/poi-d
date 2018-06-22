@@ -1,0 +1,13 @@
+abc/def/123.txt 3
+abc
+def
+123
+
+hello.c 5
+#include <stdio.h>
+
+int main() {
+    return printf("hello world");
+}
+
+.

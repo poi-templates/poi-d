@@ -1,7 +1,9 @@
 import std.stdio;
-import render;
-
 import std.getopt;
+import std.file;
+import std.array;
+import poi;
+import writer;
 
 void main(string[] args)
 {
@@ -10,6 +12,10 @@ void main(string[] args)
 	
 	if (helpInformation.helpWanted) {
 		defaultGetoptPrinter("Project objects initializer", helpInformation.options);
+	}
+
+	if (file) {
+		File(file).byLineCopy.array.parseToPOIs.writeToFiles;
 	}
 
 }
