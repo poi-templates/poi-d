@@ -1,6 +1,8 @@
-.poi_defaults 3
+.poi_defaults 5
 {
-    "message": "hello world"
+    "hello": { 
+        "message": "hello world" 
+    } 
 }
 
 abc/def/123.txt 3
@@ -12,7 +14,7 @@ hello.c 5
 #include <stdio.h>
 
 int main() {
-    return printf("{{message}}");
+    return printf("{{hello.message}}");
 }
 
 .

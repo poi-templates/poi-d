@@ -11,8 +11,18 @@ private Mustache mustacheRender;
 Context parseToContext(string jsonText, Context ctx) {
 
     JSONValue j = parseJSON(jsonText);
+    ctx = appendJsonValue(j, ctx);
+    return ctx;
+}
+
+private Context appendJsonValue(JSONValue j, Context ctx) {
     foreach(string k, v; j) {
-        ctx[k] = jsonValueToString(v);
+        if (v.type != JSON_TYPE.OBJECT) {
+            ctx[k] = jsonValueToString(v);
+        } else {
+            auto sub = ctx.addSubContext(k);
+            sub = appendJsonValue(v, sub);
+        }
     }
     return ctx;
 }
@@ -87,4 +97,14 @@ unittest {
     `);
 
     assert (result == "Kimmy, 25, false");
+
+    immutable resultWithNestedContext = renderString("{{project.name}}", `
+        {
+            "project": {
+                "name": "POI"
+            }
+        }
+    `);
+
+    assert (resultWithNestedContext == "POI");
 }
