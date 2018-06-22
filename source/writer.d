@@ -1,9 +1,6 @@
 import poi;
-
 import std.file;
-
 import std.path;
-
 import std.array : split;
 
 /// write pois result to files

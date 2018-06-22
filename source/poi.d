@@ -2,8 +2,7 @@ import render;
 import std.conv : to;
 import std.regex;
 import std.array : join, split;
-
-import std.file: exists, readText;
+import std.file : exists, readText;
 
 /// simple file in POI
 struct POI
@@ -82,7 +81,8 @@ POIs parseToPOIs(string[] text, string poivars = "{}")
             auto content = text[i + 1 .. i + 1 + count];
             p.pois[filename] = POI(content);
             i += (count + 1); // +1 to skip the empty line
-            if (filename == ".poi_defaults") {
+            if (filename == ".poi_defaults")
+            {
                 p.poidefaults = content.join("\n");
             }
         }
